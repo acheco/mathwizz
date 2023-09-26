@@ -1,7 +1,6 @@
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useHistory } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import Temas from "./pages/Temas";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -22,27 +21,44 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import Contenidos from "./pages/Contenidos";
+import { useEffect, useState } from "react";
+import { supabase } from "./lib/helper/supabaseClient";
+import "./theme/variables.css";
+import LoginPage from "./pages/LoginPage";
+import Home from "./pages/Home";
+import { Session } from "@supabase/supabase-js";
+import { Component } from "ionicons/dist/types/stencil-public-runtime";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/temas">
-          <Temas />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/temas" />
-        </Route>
-        
-        <Route exact path="/contenidos">
-          <Contenidos />
-        </Route>
+const App: React.FC = () => {
+  const history = useHistory();
+  useEffect(() => {
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      await supabase.auth.onAuthStateChange((event, session) => {
+        if (!session) {
+          history.push("/contenido");
+        } else {
+          history.push("/login");
+        }
+      });
+    };
+  });
 
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/contenido">
+            <Contenidos />
+          </Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
