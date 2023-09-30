@@ -19,7 +19,7 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <div>
-          <IonImg src="/src/assets/logo final.png"></IonImg>
+          <IonImg src="/src/assets/logoFinal.png"></IonImg>
         </div>
 
         <IonButton routerLink="/login">Ingresar</IonButton>

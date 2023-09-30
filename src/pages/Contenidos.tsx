@@ -1,46 +1,107 @@
-import { IonButton, IonContent, IonFooter, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
-import Contenido from '../components/Contenido';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonImg,
+  IonPage,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { supabase } from "../lib/helper/supabaseClient";
+import { Link } from "react-router-dom";
 
-const contenidos = [
-    {
-        id:1,
-        contenido:"https://www.youtube.com/watch?v=7iobxzd_2wY&t=7519s&ab_channel=midulive",
-        tipoContenido: "video"
+const Contenido: React.FC = ({}) => {
+  const { idSubTema } = useParams<{ idSubTema: string }>();
+  const [contenidoSubtema, setContenidoSubtema] = useState<any[]>([]); // Cambia el tipo de datos según tu esquema de la tabla
 
-    },
+  //-- CONSULTA PARA EL CONTENIDO DE LOS SUBTEMAS --//
 
-    {
-      id:2,
-      contenido:"https://th.bing.com/th/id/R.222ff96c4d877b540093d288de4b7e9c?rik=QutA6lChQIfJPQ&pid=ImgRaw&r=0",
-      tipoContenido:"foto"
-    },
-    {
-        id:3,
-        contenido:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        tipoContenido: "parrafo"
+  useEffect(() => {
+    async function fetchContenidoSubtema() {
+      const { data, error } = await supabase
+        .from("t_contenido_subtema")
+        .select("*")
+        .eq("f_id_subtema", idSubTema);
+      if (error) console.log("error", error);
+      else setContenidoSubtema(data);
     }
-]
+    fetchContenidoSubtema();
+  }, [idSubTema]);
 
-const Contenidos: React.FC = () => {
+  let content;
 
-    return (
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
-                </IonToolbar>
-            </IonHeader>
-            {contenidos.map((contenid)=>{
-                const {id,contenido,tipoContenido,}=contenid;
-                return <Contenido key={id} contenido={contenido} tipoContenido={tipoContenido}/>  
-})
-            }
-            <IonFooter>
-                <IonButton expand='block'>Resolver Cuestionario</IonButton>
-            </IonFooter>
-        </IonPage>
-    );
+  contenidoSubtema.map((datosContenidoSubtema) => {
+    if (datosContenidoSubtema.f_tipo === "parrafo") {
+      content = (
+        <IonContent className="ion-padding">
+          <IonText>
+            <p>{datosContenidoSubtema.f_contenido}</p>
+            <Link
+              key={datosContenidoSubtema.f_id}
+              to={`/cuestionario/${datosContenidoSubtema.f_id}`}
+            >
+              <IonButton>Resolver Cuestionario</IonButton>
+            </Link>
+          </IonText>
+        </IonContent>
+      );
+    } else if (datosContenidoSubtema.f_tipo === "foto") {
+      content = (
+        <IonContent fullscreen className="ion-padding">
+          <IonImg src={datosContenidoSubtema.f_contenido} />
+          <Link
+            key={datosContenidoSubtema.f_id}
+            to={`/cuestionario/${datosContenidoSubtema.f_id}`}
+          >
+            <IonButton>Resolver Cuestionario</IonButton>
+          </Link>
+        </IonContent>
+      );
+    } else if (datosContenidoSubtema.f_tipo === "video") {
+      content = (
+        <IonContent fullscreen className="ion-padding">
+          <video autoPlay={false} controls={true}>
+            <source src={datosContenidoSubtema.f_contenido} type="video/mp4" />
+          </video>
+          <Link
+            key={datosContenidoSubtema.f_id}
+            to={`/cuestionario/${datosContenidoSubtema.f_id}`}
+          >
+            <IonButton>Resolver Cuestionario</IonButton>
+          </Link>
+        </IonContent>
+      );
+    } else {
+      // Manejar otros tipos de contenido o mostrar un mensaje de error si es necesario
+      content = (
+        <IonContent className="ion-padding">
+          <IonText>
+            <p>Tipo de contenido no válido</p>
+          </IonText>
+        </IonContent>
+      );
+    }
+  });
+
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/subtemas" />
+          </IonButtons>
+          <IonTitle className="ion-text-center">MathWizz</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      {content}
+    </IonPage>
+  );
 };
 
-export default Contenidos;
+export default Contenido;
