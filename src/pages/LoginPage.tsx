@@ -12,6 +12,7 @@ import {
   IonToolbar,
   useIonToast,
   useIonLoading,
+  IonImg,
 } from "@ionic/react";
 import { supabase } from "../lib/helper/supabaseClient";
 
@@ -26,12 +27,10 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     await showLoading();
     try {
-      console.log(email);
-
       await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: "http://localhost:8101/contenido",
+          emailRedirectTo: "http://localhost:8100/temas",
         },
       });
       await showToast({
@@ -50,14 +49,20 @@ const LoginPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Login</IonTitle>
+          <IonTitle>Login to MathWizz</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <div className="ion-padding">
-          <h1>Supabase + Ionic React</h1>
-          <p>Sign in via magic link with your email below</p>
+          <IonImg
+            src="./src/assets/logoFinal.png"
+            alt="LOGO"
+            style={{ width: "50%", margin: "auto" }}
+          ></IonImg>
+          <p>
+            Accede a MathWizz vía Magic Link ingresando tu correo a continuación
+          </p>
         </div>
         <IonList inset={true}>
           <form onSubmit={handleLogin}>

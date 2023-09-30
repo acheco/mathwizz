@@ -1,6 +1,7 @@
 import { Redirect, Route, useHistory } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
+import Cuestionario from "./pages/Cuestionario";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -26,8 +27,8 @@ import { supabase } from "./lib/helper/supabaseClient";
 import "./theme/variables.css";
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
-import { Session } from "@supabase/supabase-js";
-import { Component } from "ionicons/dist/types/stencil-public-runtime";
+import Temas from "./pages/Temas";
+import SubTemas from "./pages/SubTemas";
 
 setupIonicReact();
 
@@ -52,9 +53,14 @@ const App: React.FC = () => {
         <IonRouterOutlet>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/contenido">
-            <Contenidos />
-          </Route>
+          <Route exact path="/temas" component={Temas} />
+          <Route exact path="/subtemas/:idTema" component={SubTemas} />
+          <Route exact path="/contenido/:idSubTema" component={Contenidos} />
+          <Route
+            exact
+            path="/cuestionario/:idCuestionario"
+            component={Cuestionario}
+          />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
