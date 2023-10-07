@@ -1,0 +1,14 @@
+.imgContainer {
+  margin: auto;
+  text-align: center;
+}
+
+p {
+  font-family: "Poppins", sans-serif;
+}
+
+.btnLogin {
+  margin-top: 15px;
+  --padding-start: 5rem;
+  --padding-end: 5rem;
+}

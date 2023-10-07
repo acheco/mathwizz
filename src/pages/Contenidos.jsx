@@ -16,9 +16,9 @@ import { useParams } from "react-router";
 import { supabase } from "../supabaseClient";
 import { Link } from "react-router-dom";
 
-const Contenido: React.FC = ({}) => {
-  const { idSubTema } = useParams<{ idSubTema: string }>();
-  const [contenidoSubtema, setContenidoSubtema] = useState<any[]>([]); // Cambia el tipo de datos según tu esquema de la tabla
+const Contenido = ({ }) => {
+  const { idSubTema } = useParams();
+  const [contenidoSubtema, setContenidoSubtema] = useState([]); // Cambia el tipo de datos según tu esquema de la tabla
 
   //-- CONSULTA PARA EL CONTENIDO DE LOS SUBTEMAS --//
 

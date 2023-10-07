@@ -12,8 +12,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
-const Temas: React.FC = () => {
-  const [temas, setTemas] = useState<any[]>([]); // Cambia el tipo de datos según tu esquema de la tabla
+const Temas = () => {
+  const [temas, setTemas] = useState([]); // Cambia el tipo de datos según tu esquema de la tabla
 
   useEffect(() => {
     const fetchTemas = async () => {

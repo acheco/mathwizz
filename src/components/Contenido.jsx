@@ -1,12 +1,8 @@
 import React from "react";
 import { IonContent, IonText, IonImg, IonButton } from "@ionic/react";
 
-interface ContenidoDinamico {
-  tipoContenido: string;
-  contenido: string; // Dependiendo del tipo de contenido, esto puede ser un texto, una URL de imagen o una URL de video
-}
 
-const Contenido: React.FC<ContenidoDinamico> = ({
+const Contenido = ({
   tipoContenido,
   contenido,
 }) => {

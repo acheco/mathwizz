@@ -14,9 +14,9 @@ import {
 } from "@ionic/react";
 import React from "react";
 import { arrowForwardOutline } from "ionicons/icons";
-import "../styles/home.css";
+import "../styles/Home.css";
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <IonPage>
       <IonHeader>

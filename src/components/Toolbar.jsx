@@ -7,7 +7,7 @@ import {
 } from "@ionic/react";
 import React from "react";
 
-const Toolbar: React.FC = () => {
+const Toolbar = () => {
   return (
     <IonToolbar>
       <IonButtons slot="start">
