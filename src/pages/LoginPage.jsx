@@ -15,41 +15,40 @@ import {
   IonImg,
   IonButtons,
   IonBackButton,
-  IonIcon,
-  IonCheckbox,
+  useIonAlert
 } from "@ionic/react";
 import { supabase } from "../supabaseClient";
 import "../styles/login.css";
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
+
   const [email, setEmail] = useState("");
 
   const [showLoading, hideLoading] = useIonLoading();
-  const [showToast] = useIonToast();
+  const [showAlert] = useIonAlert();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     await showLoading();
     try {
-      await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: "http://localhost:8100/temas",
-        },
-      });
-      await showToast({
+      await supabase.auth.signInWithOtp({ email });
+      await showAlert({
+        trigger: "Alert",
         message: "Busque el link de ingreso a MathWizz en su correo!",
+        buttons: ['OK'],
       });
-    } catch (e: any) {
-      await showToast({
-        message: e.error_description || e.message,
-        duration: 5000,
+    } catch (e) {
+      await showAlert({
+        message: e.error_description || e.message
       });
     } finally {
       await hideLoading();
     }
   };
+
+
   return (
     <IonPage>
       <IonHeader>

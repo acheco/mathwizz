@@ -1,10 +1,8 @@
 import { IonButton } from "@ionic/react";
 
-interface TituloSubTema {
-  titulo: string;
-}
 
-const BtnSubTema: React.FC<TituloSubTema> = ({ titulo }) => {
+
+const BtnTema = ({ titulo }) => {
   return (
     <div>
       <IonButton className="btnTitulo" expand="block">
@@ -14,4 +12,4 @@ const BtnSubTema: React.FC<TituloSubTema> = ({ titulo }) => {
   );
 };
 
-export default BtnSubTema;
+export default BtnTema;

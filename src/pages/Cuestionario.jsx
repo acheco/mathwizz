@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useParams, useHistory } from "react-router";
 import { supabase } from "../supabaseClient";
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -11,23 +12,23 @@ import {
   IonItemDivider,
   IonItemGroup,
   IonLabel,
-  IonList,
   IonPage,
-  IonRadio,
   IonRadioGroup,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import { checkmarkCircleOutline, closeCircleOutline } from "ionicons/icons";
 
-const Cuestionario: React.FC = () => {
-  const { idCuestionario } = useParams<{ idCuestionario: string }>();
+const Cuestionario = () => {
 
-  const [preguntas, setPreguntas] = useState<any[]>([]);
-  const [selectedAnswers, setSelectedAnswers] = useState<{
-    [key: string]: string | null;
-  }>({});
-  const [blockedGroups, setBlockedGroups] = useState<string[]>([]);
+  const history = useHistory();
+
+  const { idCuestionario } = useParams();
+
+  const [preguntas, setPreguntas] = useState([]);
+  const [respuestaSeleccionada, setRespuestaSeleccionada] = useState({});
+  const [bloquearGrupo, setBloquearGrupo] = useState([]);
+  const [puntuacion, setPuntuacion] = useState(0);
 
   // Consulta las preguntas del subtema seleccionado
   useEffect(() => {
@@ -59,23 +60,30 @@ const Cuestionario: React.FC = () => {
   }, [idCuestionario]);
 
   const handleAnswerClick = (
-    preguntaId: string,
-    respuestaId: string,
-    esCorrecta: boolean
+    preguntaId,
+    respuestaId,
+    esCorrecta
   ) => {
     // Deshabilitar otras respuestas de la misma pregunta
-    setSelectedAnswers((prevSelectedAnswers) => ({
-      ...prevSelectedAnswers,
+    setRespuestaSeleccionada((prevRespuestaSeleccionada) => ({
+      ...prevRespuestaSeleccionada,
       [preguntaId]: respuestaId,
     }));
 
     // Bloquear el grupo de respuestas de la misma pregunta
-    if (!blockedGroups.includes(preguntaId)) {
-      setBlockedGroups((prevBlockedGroups) => [
-        ...prevBlockedGroups,
+    if (!bloquearGrupo.includes(preguntaId)) {
+      setBloquearGrupo((prevbloquearGrupo) => [
+        ...prevbloquearGrupo,
         preguntaId,
       ]);
     }
+
+    // Sumar puntuacion si la respuesta es correcta:
+
+    if (esCorrecta) {
+      setPuntuacion((prevPuntuacion) => prevPuntuacion + 1);
+    }
+
   };
 
   return (
@@ -96,9 +104,9 @@ const Cuestionario: React.FC = () => {
               {preguntaRespuesta.pregunta}
             </IonItemDivider>
             <IonRadioGroup
-              value={selectedAnswers[preguntaRespuesta.id] || null}
+              value={respuestaSeleccionada[preguntaRespuesta.id] || null}
             >
-              {preguntaRespuesta.respuestas.map((respuesta: any) => (
+              {preguntaRespuesta.respuestas.map((respuesta) => (
                 <IonItem
                   key={respuesta.id}
                   onClick={() =>
@@ -108,10 +116,10 @@ const Cuestionario: React.FC = () => {
                       respuesta.es_correcta
                     )
                   }
-                  disabled={blockedGroups.includes(preguntaRespuesta.id)}
+                  disabled={bloquearGrupo.includes(preguntaRespuesta.id)}
                 >
                   <IonLabel>{respuesta.respuesta}</IonLabel>
-                  {respuesta.id === selectedAnswers[preguntaRespuesta.id] &&
+                  {respuesta.id === respuestaSeleccionada[preguntaRespuesta.id] &&
                     (respuesta.es_correcta ? (
                       <IonIcon
                         slot="end"
@@ -130,6 +138,11 @@ const Cuestionario: React.FC = () => {
             </IonRadioGroup>
           </IonItemGroup>
         ))}
+
+        <IonButton onClick={() => {
+          // Pasa la puntuación al componente CalculoPuntuacion
+          history.push("/puntuacion/" + puntuacion);
+        }}>Finalizar Cuestionario</IonButton>
       </IonContent>
     </IonPage>
   );
