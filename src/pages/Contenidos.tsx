@@ -13,7 +13,7 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { supabase } from "../lib/helper/supabaseClient";
+import { supabase } from "../supabaseClient";
 import { Link } from "react-router-dom";
 
 const Contenido: React.FC = ({}) => {
