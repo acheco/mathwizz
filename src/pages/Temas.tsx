@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../lib/helper/supabaseClient";
+import { supabase } from "../supabaseClient";
 
 const Temas: React.FC = () => {
   const [temas, setTemas] = useState<any[]>([]); // Cambia el tipo de datos según tu esquema de la tabla
@@ -44,7 +44,7 @@ const Temas: React.FC = () => {
   return (
     <IonPage className="tipoLetra">
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color={"toolbar"}>
           <IonTitle className="ion-text-center">Temas</IonTitle>
           <IonAvatar slot="end">
             <IonImg src="https://www.gravatar.com/avatar?d=mp" alt="avatar" />

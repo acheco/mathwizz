@@ -9,7 +9,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { supabase } from "../lib/helper/supabaseClient";
+import { supabase } from "../supabaseClient";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 

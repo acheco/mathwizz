@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { supabase } from "../supabaseClient";
 import {
   IonBackButton,
   IonButtons,
@@ -15,9 +18,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { supabase } from "../lib/helper/supabaseClient";
 import { checkmarkCircleOutline, closeCircleOutline } from "ionicons/icons";
 
 const Cuestionario: React.FC = () => {
@@ -27,6 +27,7 @@ const Cuestionario: React.FC = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: string]: string | null;
   }>({});
+  const [blockedGroups, setBlockedGroups] = useState<string[]>([]);
 
   // Consulta las preguntas del subtema seleccionado
   useEffect(() => {
@@ -62,26 +63,19 @@ const Cuestionario: React.FC = () => {
     respuestaId: string,
     esCorrecta: boolean
   ) => {
-    // ...
-
     // Deshabilitar otras respuestas de la misma pregunta
-    const preguntaActual = preguntas.find(
-      (pregunta) => pregunta.id === preguntaId
-    );
-
-    if (preguntaActual) {
-      const respuestasDePreguntaActual = preguntaActual.respuestas;
-      for (const respuesta of respuestasDePreguntaActual) {
-        if (respuesta.id !== respuestaId) {
-          respuesta.disabled = true;
-        }
-      }
-    }
-
     setSelectedAnswers((prevSelectedAnswers) => ({
       ...prevSelectedAnswers,
       [preguntaId]: respuestaId,
     }));
+
+    // Bloquear el grupo de respuestas de la misma pregunta
+    if (!blockedGroups.includes(preguntaId)) {
+      setBlockedGroups((prevBlockedGroups) => [
+        ...prevBlockedGroups,
+        preguntaId,
+      ]);
+    }
   };
 
   return (
@@ -114,6 +108,7 @@ const Cuestionario: React.FC = () => {
                       respuesta.es_correcta
                     )
                   }
+                  disabled={blockedGroups.includes(preguntaRespuesta.id)}
                 >
                   <IonLabel>{respuesta.respuesta}</IonLabel>
                   {respuesta.id === selectedAnswers[preguntaRespuesta.id] &&

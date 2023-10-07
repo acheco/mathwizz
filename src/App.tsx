@@ -23,8 +23,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import Contenidos from "./pages/Contenidos";
 import { useEffect, useState } from "react";
-import { supabase } from "./lib/helper/supabaseClient";
-import "./theme/variables.css";
+import { supabase } from "./supabaseClient";
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import Temas from "./pages/Temas";
@@ -37,7 +36,7 @@ const App: React.FC = () => {
   useEffect(() => {
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      await supabase.auth.onAuthStateChange((event, session) => {
+      await supabase.auth.onAuthStateChange((event: any, session: any) => {
         if (!session) {
           history.push("/contenido");
         } else {
