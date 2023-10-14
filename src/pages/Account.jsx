@@ -14,13 +14,13 @@ import {
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
+import Avatar from '../components/Avatar';
 
 const Account = () => {
-
-
     const [showLoading, hideLoading] = useIonLoading();
     const [showToast] = useIonToast();
-    const [session] = useState(() => supabase.auth.getSession({ data: { session } }));
+    const [session] = useState(() => supabase.auth.session());
+
     const router = useIonRouter();
     const [profile, setProfile] = useState({
         username: '',
@@ -32,7 +32,10 @@ const Account = () => {
     }, [session]);
     const getProfile = async () => {
         console.log('get');
-        await showLoading();
+
+        //
+        //  await showLoading();
+
         try {
             const user = supabase.auth.user();
             let { data, error, status } = await supabase
@@ -52,6 +55,7 @@ const Account = () => {
                     avatar_url: data.avatar_url,
                 });
             }
+            return null;
         } catch (error) {
             showToast({ message: error.message, duration: 5000 });
         } finally {
@@ -62,7 +66,7 @@ const Account = () => {
         await supabase.auth.signOut();
         router.push('/', 'forward', 'replace');
     }
-    const updateProfile = async (e, avatar_url = '') => {
+    const updateProfile = async (e, avatar_url) => {
         e.preventDefault();
 
         console.log('update ');
@@ -100,6 +104,7 @@ const Account = () => {
             </IonHeader>
 
             <IonContent>
+                <Avatar url={profile.avatar_url} onUpload={updateProfile}></Avatar>
                 <form onSubmit={updateProfile}>
                     <IonItem>
                         <IonLabel>
@@ -109,8 +114,9 @@ const Account = () => {
                     </IonItem>
 
                     <IonItem>
-                        <IonLabel position="stacked">Name</IonLabel>
+                        <IonLabel aria-label='username' position="stacked">Name</IonLabel>
                         <IonInput
+
                             type="text"
                             name="username"
                             value={profile.username}
@@ -121,7 +127,7 @@ const Account = () => {
                     </IonItem>
 
                     <IonItem>
-                        <IonLabel position="stacked">Website</IonLabel>
+                        <IonLabel aria-label='website' position="stacked">Website</IonLabel>
                         <IonInput
                             type="url"
                             name="website"

@@ -21,53 +21,27 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import Contenidos from "./pages/Contenidos";
 import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
-import LoginPage from "./pages/LoginPage";
-import Home from "./pages/Home";
 import Temas from "./pages/Temas";
 import SubTemas from "./pages/SubTemas";
 import Puntuacion from "./pages/Puntuacion";
+import LoginPage from "./pages/LoginPage";
+import Login from "./pages/Login";
 import Account from "./pages/Account";
-
+import contenido from "./pages/Contenido";
 
 setupIonicReact();
 
 const App = () => {
 
-  const [session, setSession] = useState(null);
-  const [userId, setUserId] = useState(null);
-
+  const [session, setSession] = useState(null)
   useEffect(() => {
-    setSession(supabase.auth.getSession({ data: { session } }))
+    setSession(supabase.auth.session())
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
-      if (session) {
-        setUserId(session.user.id);
-        console.log(userId);
-      }
-
     })
   }, [])
-
-  /*
- 
-  const history = useHistory();
-  useEffect(() => {
-    async (e) => {
-      e.preventDefault();
-      await supabase.auth.onAuthStateChange((event, session) => {
-        if (!session) {
-          history.push("/contenido");
-        } else {
-          history.push("/login");
-        }
-      });
-    };
-  });
-*/
-
 
   return (
     <IonApp>
@@ -78,17 +52,15 @@ const App = () => {
             exact
             path="/"
             render={() => {
-              return session ? <Redirect to="/account" /> : <LoginPage />
+              return session ? <Redirect to="/temas" /> : <Login />
             }}
           />
-
-          <Route exact path="/account">
-            <Account />
-          </Route>
-
           <Route exact path="/temas" component={Temas} />
+
+          <Route exact path="/account" component={Account} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/subtemas/:idTema" component={SubTemas} />
-          <Route exact path="/contenido/:idSubTema" component={Contenidos} />
+          <Route exact path="/contenido/:idSubTema" component={contenido} />
           <Route
             exact
             path="/cuestionario/:idCuestionario"
@@ -96,9 +68,6 @@ const App = () => {
           />
           <Route exact path="/puntuacion/:puntuacion" component={Puntuacion} />
 
-          <Route exact path="/account">
-            <Account />
-          </Route>
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

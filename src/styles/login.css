@@ -3,7 +3,12 @@
   text-align: center;
 }
 
-p {
+.nombreApp {
+  text-align: center;
+  margin: auto;
+  padding: 20px 0;
+  font-weight: 600;
+  font-size: xx-large;
   font-family: "Poppins", sans-serif;
 }
 

@@ -33,7 +33,12 @@ const LoginPage = () => {
 
     await showLoading();
     try {
-      await supabase.auth.signInWithOtp({ email });
+      await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: "http://localhost:8100/temas",
+        },
+      });
       await showAlert({
         trigger: "Alert",
         message: "Busque el link de ingreso a MathWizz en su correo!",
@@ -47,8 +52,6 @@ const LoginPage = () => {
       await hideLoading();
     }
   };
-
-
   return (
     <IonPage>
       <IonHeader>
