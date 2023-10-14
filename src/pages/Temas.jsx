@@ -3,24 +3,28 @@ import {
   IonButton,
   IonContent,
   IonHeader,
-  IonImg,
   IonPage,
-  IonTitle,
-  IonToolbar,
+
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import Toolbar from "../components/Toolbar";
+import "../styles/Temas.css";
+import DatosPerfil from "../data/DatosUsuario";
 
 const Temas = () => {
-  const [temas, setTemas] = useState([]); // Cambia el tipo de datos según tu esquema de la tabla
+
+  const datosPerfil = DatosPerfil();
+  const [temas, setTemas] = useState([]);
 
   useEffect(() => {
+
     const fetchTemas = async () => {
       try {
         const { data, error } = await supabase
           .from("t_temas") // Nombre de la tabla
-          .select("*"); // Selecciona todos los campos (puedes especificar campos específicos)
+          .select("*");
 
         if (error) {
           console.error(
@@ -43,25 +47,26 @@ const Temas = () => {
 
   return (
     <IonPage className="tipoLetra">
-      <IonHeader>
-        <IonToolbar color={"toolbar"}>
-          <IonTitle className="ion-text-center">Temas</IonTitle>
-          <IonAvatar slot="end">
-            <IonImg src="https://www.gravatar.com/avatar?d=mp" alt="avatar" />
-          </IonAvatar>
-        </IonToolbar>
+      <IonHeader class="ion-no-border">
+        <Toolbar
+          showBackButton={false}
+          encabezado="TEMAS"
+          avatarUrl={datosPerfil.avatar_url}
+          userName={datosPerfil.username} />
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonTitle>Seleccione un tema a estudiar</IonTitle>
+
+        <h2 className="scale-up-center">SELECCIONE UN TEMA</h2>
+
         {temas.map((datosTemas) => {
           return (
-            <Link key={datosTemas.f_id} to={`/subtemas/${datosTemas.f_id}`}>
-              <IonButton expand="block">{datosTemas.f_nombre_tema}</IonButton>
+            <Link style={{ textDecoration: "none" }} key={datosTemas.f_id} to={`/subtemas/${datosTemas.f_id}`}>
+              <IonButton style={{ padding: "8px 0" }} expand="block" size="large" mode="ios">{datosTemas.f_nombre_tema}</IonButton>
             </Link>
           );
         })}
       </IonContent>
-    </IonPage>
+    </IonPage >
   );
 };
 

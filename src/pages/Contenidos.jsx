@@ -1,45 +1,71 @@
+/*
 import {
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonContent,
-  IonFooter,
   IonHeader,
   IonImg,
   IonPage,
-  IonText,
-  IonTitle,
-  IonToolbar,
+  IonText
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { supabase } from "../supabaseClient";
 import { Link } from "react-router-dom";
+import Toolbar from "../components/Toolbar";
+import DatosPerfil from "../data/DatosUsuario";
 
-const Contenido = ({ }) => {
+const Contenido = () => {
+
+  const perfil = DatosPerfil();
   const { idSubTema } = useParams();
   const [contenidoSubtema, setContenidoSubtema] = useState([]); // Cambia el tipo de datos según tu esquema de la tabla
+  const [subTemas, setSubTemas] = useState([]);
 
   //-- CONSULTA PARA EL CONTENIDO DE LOS SUBTEMAS --//
 
   useEffect(() => {
     async function fetchContenidoSubtema() {
-      const { data, error } = await supabase
-        .from("t_contenido_subtema")
-        .select("*")
-        .eq("f_id_subtema", idSubTema);
-      if (error) console.log("error", error);
-      else setContenidoSubtema(data);
+      try {
+        const { data, error } = await supabase
+          .from("t_contenido_subtema")
+          .select("*")
+          .eq("f_id_subtema", idSubTema);
+        if (error) console.log("error", error);
+        else setContenidoSubtema(data);
+      } catch (error) {
+        console.log("Error fetching content:", error);
+      }
     }
     fetchContenidoSubtema();
   }, [idSubTema]);
+
+
+  //-- MOSTRAR TITULO DE LOS SUBTEMAS --//
+  useEffect(() => {
+    async function fetchContenidoSubtema() {
+      try {
+        const { data, error } = await supabase
+          .from("t_sub_temas")
+          .select("f_id, f_nombre_subtema")
+          .eq("f_id", idSubTema);
+        if (error) console.log("error", error);
+        else setSubTemas(data);
+      } catch (error) {
+        console.log("Error fetching content:", error);
+      }
+    }
+    fetchContenidoSubtema();
+  }, [idSubTema]);
+
+  const tituloSubTema = subTemas[0];
 
   let content;
 
   contenidoSubtema.map((datosContenidoSubtema) => {
     if (datosContenidoSubtema.f_tipo === "parrafo") {
       content = (
-        <IonContent className="ion-padding">
+        <IonContent className="ion-padding" >
+          <h2 style={{ textAlign: "center" }}>{tituloSubTema?.f_nombre_subtema.toUpperCase()}</h2>
           <IonText>
             <p>{datosContenidoSubtema.f_contenido}</p>
             <Link
@@ -91,13 +117,13 @@ const Contenido = ({ }) => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/subtemas" />
-          </IonButtons>
-          <IonTitle className="ion-text-center">MathWizz</IonTitle>
-        </IonToolbar>
+      <IonHeader class="ion-no-border">
+        <Toolbar
+          showBackButton={true}
+          encabezado="CONTENIDO"
+          userName={perfil.username}
+          avatarUrl={perfil.avatar_url}
+        />
       </IonHeader>
       {content}
     </IonPage>
@@ -105,3 +131,4 @@ const Contenido = ({ }) => {
 };
 
 export default Contenido;
+*/

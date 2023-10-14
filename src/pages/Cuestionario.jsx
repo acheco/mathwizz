@@ -18,13 +18,16 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { checkmarkCircleOutline, closeCircleOutline } from "ionicons/icons";
+import Toolbar from "../components/Toolbar";
+import DatosPerfil from "../data/DatosUsuario";
+
 
 const Cuestionario = () => {
 
   const history = useHistory();
 
   const { idCuestionario } = useParams();
-
+  const perfil = DatosPerfil();
   const [preguntas, setPreguntas] = useState([]);
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState({});
   const [bloquearGrupo, setBloquearGrupo] = useState([]);
@@ -89,12 +92,13 @@ const Cuestionario = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/contenido"></IonBackButton>
-          </IonButtons>
-          <IonTitle>Cuestionario</IonTitle>
-        </IonToolbar>
+        <Toolbar
+          showBackButton={true}
+          encabezado="CUESTIONARIO"
+          avatarUrl={perfil.avatar_url}
+          userName={perfil.username}
+
+        />
       </IonHeader>
 
       <IonContent>

@@ -1,29 +1,31 @@
 import {
-  IonBackButton,
-  IonButtons,
   IonButton,
   IonContent,
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Toolbar from "../components/Toolbar";
+import DatosPerfil from "../data/DatosUsuario";
 
 const SubTemas = () => {
 
+  const perfil = DatosPerfil();
+
   const { idTema } = useParams();
-  const [subTemas, setSubTemas] = useState([]); // Cambia el tipo de datos según tu esquema de la tabla
+  const [subTemas, setSubTemas] = useState([]);
+  const [temas, setTemas] = useState([]);
 
   useEffect(() => {
     const fetchSubTemas = async () => {
       try {
         const { data, error } = await supabase
-          .from("t_sub_temas") // Nombre de la tabla
-          .select("*") // Selecciona todos los campos (puedes especificar campos específicos)
+          .from("t_sub_temas")
+          .select("*")
           .eq("f_id_tema", idTema);
 
         if (error) {
@@ -45,24 +47,62 @@ const SubTemas = () => {
     fetchSubTemas();
   }, []);
 
+  // llamar los datos de la tabla temas
+
+  useEffect(() => {
+    const fetchTemas = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("t_temas")
+          .select("*")
+          .eq("f_id", idTema);
+        if (error) {
+          console.error(
+            "Error al obtener datos de la tabla t_temas:",
+            error.message
+          );
+          return;
+        }
+        setTemas(data || []);
+
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
+      }
+
+    };
+    fetchTemas();
+  }, []);
+
+  const tema = temas[0];
+
   return (
     <IonPage className="tipoLetra">
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/subtemas"></IonBackButton>
-          </IonButtons>
-          <IonTitle>Sub Temas</IonTitle>
-        </IonToolbar>
+      <IonHeader class="ion-no-border">
+        <Toolbar
+          showBackButton={true}
+          encabezado="SUB TEMAS"
+          avatarUrl={perfil.avatar_url}
+          userName={perfil.username}
+
+        />
       </IonHeader>
+
       <IonContent className="ion-padding">
-        <IonTitle>Seleccione un Sub tema a estudiar</IonTitle>
+        <h2 style={{
+          fontWeight: "bold",
+          margin: "20px auto 20px auto",
+          textAlign: "center",
+        }}>
+          SELECCIONE UN SUB TEMA DE {tema?.f_nombre_tema.toUpperCase()}
+        </h2>
+
         {subTemas.map((datosSubTemas) => (
           <Link
+            style={{ textDecoration: "none" }}
             key={datosSubTemas.f_id}
             to={`/contenido/${datosSubTemas.f_id}`}
           >
-            <IonButton expand="block">
+            <IonButton color="success" className="ion-text-wrap" style={{ padding: "8px 0" }} expand="block" size="large" mode="ios">
               {datosSubTemas.f_nombre_subtema}
             </IonButton>
           </Link>

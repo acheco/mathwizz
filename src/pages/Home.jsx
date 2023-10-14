@@ -17,6 +17,7 @@ import { arrowForwardOutline } from "ionicons/icons";
 import "../styles/Home.css";
 
 const Home = () => {
+
   return (
     <IonPage>
       <IonHeader>
