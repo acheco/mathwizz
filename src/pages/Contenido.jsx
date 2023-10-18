@@ -7,8 +7,7 @@ import Toolbar from "../components/Toolbar";
 import { Link } from "react-router-dom";
 
 // Import de Contenido de los subtemas
-import ElementosTermino from "../components/ElementosTermino";
-
+import PropiedadesGeneralesNúmerosReales from "../components/PropiedadesGeneralesNúmerosReales";
 
 const contenido = () => {
 
@@ -76,7 +75,7 @@ const contenido = () => {
             <IonContent class="ion-padding">
                 <h2 style={{ textAlign: "center", fontWeight: "600", fontSize: "2rem" }}>{tituloSubTema?.f_nombre_subtema.toUpperCase()}</h2>
 
-                <ElementosTermino />
+                <PropiedadesGeneralesNúmerosReales />
                 {
                     subTemas.map((data) => (
                         <div style={{ textAlign: "center", marginTop: "20px" }}>
