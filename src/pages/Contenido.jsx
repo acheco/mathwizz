@@ -7,7 +7,7 @@ import Toolbar from "../components/Toolbar";
 import { Link } from "react-router-dom";
 
 // Import de Contenido de los subtemas
-import ElementosTermino from "../components/ElementosTermino";
+import PropiedadesGeneralesNúmerosReales from "../components/PropiedadesGeneralesNúmerosReales";
 import IgualdadEcuaciones from "../components/IgualdadEcuaciones";
 import ExpresionesAlgebraicas from "../components/ExpresionesAlgebraicas";
 import LenguajeOrdinarioAlgebraico from "../components/LenguajeOrdinarioAlgebraico";
@@ -91,6 +91,25 @@ const contenido = () => {
       </IonContent>
     </IonPage>
   );
+                <PropiedadesGeneralesNúmerosReales />
+                {
+                    subTemas.map((data) => (
+                        <div style={{ textAlign: "center", marginTop: "20px" }}>
+                            <Link
+                                key={data.f_id}
+                                to={`/cuestionario/${data.f_id}`}
+                            >
+                                <IonButton size="large">Resolver Cuestionario</IonButton>
+                            </Link>
+
+                        </div>
+
+                    ))
+                }
+
+            </IonContent>
+        </IonPage >
+    );
 };
 
 export default contenido;
