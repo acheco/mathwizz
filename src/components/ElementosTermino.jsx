@@ -1,12 +1,4 @@
-import {
-  IonContent,
-  IonImg,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonPage,
-  IonTitle,
-} from "@ionic/react";
+import { IonImg } from "@ionic/react";
 
 const ElementosTermino = () => {
   return (

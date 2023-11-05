@@ -26,33 +26,30 @@ import { supabase } from "./supabaseClient";
 import Temas from "./pages/Temas";
 import SubTemas from "./pages/SubTemas";
 import Puntuacion from "./pages/Puntuacion";
-import LoginPage from "./pages/LoginPage";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
-import contenido from "./pages/Contenido";
+import Contenidos from "./pages/Contenido";
 
 setupIonicReact();
 
 const App = () => {
-
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(null);
   useEffect(() => {
-    setSession(supabase.auth.session())
+    setSession(supabase.auth.session());
     supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+      setSession(session);
+    });
+  }, []);
 
   return (
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-
           <Route
             exact
             path="/"
             render={() => {
-              return session ? <Redirect to="/temas" /> : <Login />
+              return session ? <Redirect to="/temas" /> : <Login />;
             }}
           />
           <Route exact path="/temas" component={Temas} />
@@ -60,14 +57,13 @@ const App = () => {
           <Route exact path="/account" component={Account} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/subtemas/:idTema" component={SubTemas} />
-          <Route exact path="/contenido/:idSubTema" component={contenido} />
+          <Route exact path="/contenido/:idSubTema" component={Contenidos} />
           <Route
             exact
             path="/cuestionario/:idCuestionario"
             component={Cuestionario}
           />
           <Route exact path="/puntuacion/:puntuacion" component={Puntuacion} />
-
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

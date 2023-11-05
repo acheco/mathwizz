@@ -1,18 +1,16 @@
 import { IonText } from "@ionic/react";
-import React from "react";
 
 const DesigualdadInecuaciones = () => {
   return (
     <div>
       <iframe
-        style={{ marginBottom: "1rem" }}
+        style={{ marginBottom: "1rem", border: "none" }}
         width="380"
         height="315"
         src="https://www.youtube.com/embed/NAKaOkg0LDM?si=WpuJjMomnfMHBOXy"
         title="YouTube video player"
-        frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
 
       <IonText>

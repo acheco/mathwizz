@@ -13,11 +13,10 @@ const IgualdadEcuaciones = () => {
         </figcaption>
       </figure>
 
-      <IonItem>
-        <h3>
-          <b>Igualdad:</b>
-        </h3>
-      </IonItem>
+      <h3>
+        <b>Igualdad:</b>
+      </h3>
+
       <IonText>
         <p>
           La igualdad es una relación matemática que establece que dos
@@ -40,11 +39,9 @@ const IgualdadEcuaciones = () => {
         </li>
       </ul>
 
-      <IonItem>
-        <h3>
-          <b>Ecuación:</b>
-        </h3>
-      </IonItem>
+      <h3>
+        <b>Ecuación:</b>
+      </h3>
 
       <IonText>
         <p>
