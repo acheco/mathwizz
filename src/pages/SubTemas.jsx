@@ -3,19 +3,23 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
+  IonImg,
+  IonBadge,
+  IonIcon,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { home } from "ionicons/icons";
 import Toolbar from "../components/Toolbar";
 import DatosPerfil from "../data/DatosUsuario";
+import DatosPuntuacion from "../data/Puntuacion";
+import "../styles/subTemas.css";
 
 const SubTemas = () => {
-
   const perfil = DatosPerfil();
-
+  const puntuacion = DatosPuntuacion();
   const { idTema } = useParams();
   const [subTemas, setSubTemas] = useState([]);
   const [temas, setTemas] = useState([]);
@@ -64,11 +68,9 @@ const SubTemas = () => {
           return;
         }
         setTemas(data || []);
-
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);
       }
-
     };
     fetchTemas();
   }, []);
@@ -83,18 +85,29 @@ const SubTemas = () => {
           encabezado="SUB TEMAS"
           avatarUrl={perfil.avatar_url}
           userName={perfil.username}
-
         />
       </IonHeader>
 
-      <IonContent className="ion-padding">
-        <h2 style={{
-          fontWeight: "bold",
-          margin: "20px auto 20px auto",
-          textAlign: "center",
-        }}>
+      <IonContent color="secondary" className="ion-padding">
+        <h2
+          style={{
+            fontWeight: "bold",
+            margin: "20px auto 20px auto",
+            textAlign: "center",
+          }}
+        >
           SELECCIONE UN SUB TEMA DE {tema?.f_nombre_tema.toUpperCase()}
         </h2>
+
+        <IonImg
+          style={{
+            maxWidth: "100%",
+            width: "250px",
+            height: "250px",
+            margin: "auto",
+          }}
+          src="/src/assets/images/viejo2.png"
+        ></IonImg>
 
         {subTemas.map((datosSubTemas) => (
           <Link
@@ -102,8 +115,24 @@ const SubTemas = () => {
             key={datosSubTemas.f_id}
             to={`/contenido/${datosSubTemas.f_id}`}
           >
-            <IonButton color="success" className="ion-text-wrap" style={{ padding: "8px 0" }} expand="block" size="large" mode="ios">
+            <IonButton
+              color="primary"
+              className=" ion-text-wrap "
+              expand="block"
+              size="large"
+              mode="ios"
+              style={{
+                padding: "8px 0",
+              }}
+            >
+              <IonIcon slot="button-inner" icon={home}></IonIcon>
               {datosSubTemas.f_nombre_subtema}
+              <IonBadge
+                style={{ margin: "auto 0 auto auto" }}
+                key={datosSubTemas.f_id}
+              >
+                {puntuacion[datosSubTemas.f_id] || 0}
+              </IonBadge>
             </IonButton>
           </Link>
         ))}

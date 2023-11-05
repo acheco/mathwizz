@@ -1,10 +1,9 @@
 import {
-  IonAvatar,
   IonButton,
   IonContent,
   IonHeader,
+  IonImg,
   IonPage,
-
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,12 +13,10 @@ import "../styles/Temas.css";
 import DatosPerfil from "../data/DatosUsuario";
 
 const Temas = () => {
-
   const datosPerfil = DatosPerfil();
   const [temas, setTemas] = useState([]);
 
   useEffect(() => {
-
     const fetchTemas = async () => {
       try {
         const { data, error } = await supabase
@@ -52,21 +49,52 @@ const Temas = () => {
           showBackButton={false}
           encabezado="TEMAS"
           avatarUrl={datosPerfil.avatar_url}
-          userName={datosPerfil.username} />
+          userName={datosPerfil.username}
+        />
       </IonHeader>
-      <IonContent className="ion-padding">
-
+      <IonContent color="secondary" className="ion-padding">
         <h2 className="scale-up-center">SELECCIONE UN TEMA</h2>
+
+        <IonImg
+          style={{
+            margin: " auto auto 20px auto",
+            maxWidth: "100%",
+            width: "300px",
+            maxHeight: "100%",
+            height: "300px",
+          }}
+          src="/src/assets/viejo.png"
+        ></IonImg>
 
         {temas.map((datosTemas) => {
           return (
-            <Link style={{ textDecoration: "none" }} key={datosTemas.f_id} to={`/subtemas/${datosTemas.f_id}`}>
-              <IonButton style={{ padding: "8px 0" }} expand="block" size="large" mode="ios">{datosTemas.f_nombre_tema}</IonButton>
+            <Link
+              style={{ textDecoration: "none" }}
+              key={datosTemas.f_id}
+              to={`/subtemas/${datosTemas.f_id}`}
+            >
+              <IonButton
+                style={{ padding: "8px 0", fontSize: "25px" }}
+                expand="block"
+                size="large"
+                mode="ios"
+              >
+                {datosTemas.f_nombre_tema}
+                <img
+                  style={{
+                    maxHeight: "45px",
+                    maxWidth: "45px",
+                    margin: "auto -20% auto 20%",
+                  }}
+                  src={datosTemas.icon}
+                  alt="icon"
+                />
+              </IonButton>
             </Link>
           );
         })}
       </IonContent>
-    </IonPage >
+    </IonPage>
   );
 };
 

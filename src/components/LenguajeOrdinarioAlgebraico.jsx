@@ -68,15 +68,13 @@ const LenguajeOrdinarioAlgebraico = () => {
         </p>
       </IonText>
 
-      <IonItem>
-        <p>
-          El lenguaje algebraico es especialmente útil cuando se trata de
-          resolver problemas matemáticos más complejos o cuando se necesita
-          generalizar una relación matemática para que sea aplicable a
-          diferentes situaciones. Permite simplificar expresiones y trabajar de
-          manera más eficiente en cálculos matemáticos.
-        </p>
-      </IonItem>
+      <p>
+        El lenguaje algebraico es especialmente útil cuando se trata de resolver
+        problemas matemáticos más complejos o cuando se necesita generalizar una
+        relación matemática para que sea aplicable a diferentes situaciones.
+        Permite simplificar expresiones y trabajar de manera más eficiente en
+        cálculos matemáticos.
+      </p>
     </div>
   );
 };

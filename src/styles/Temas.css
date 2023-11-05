@@ -1,3 +1,7 @@
+.ion-content {
+  --ion-background: #000 !important;
+}
+
 .subMenu {
   cursor: pointer;
 }
