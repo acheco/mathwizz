@@ -6,7 +6,7 @@ const obtenerDatosPerfil = async () => {
         const user = supabase.auth.user();
         let { data, error, status } = await supabase
             .from('profiles')
-            .select(`username, website, avatar_url`)
+            .select(`username`)
             .eq('id', user.id)
             .single();
         if (error && status !== 406) {

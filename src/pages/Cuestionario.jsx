@@ -74,7 +74,6 @@ const Cuestionario = () => {
     }
 
     // Sumar puntuacion si la respuesta es correcta:
-
     if (esCorrecta) {
       setPuntuacion((prevPuntuacion) => prevPuntuacion + 1);
     }
@@ -104,7 +103,7 @@ const Cuestionario = () => {
     }
   };
 
-  // insertar o actulaizar el historial del cuestionario
+  // insertar o actualizar el historial del cuestionario
   const handleSubmit = async (e) => {
     e.preventDefault();
 

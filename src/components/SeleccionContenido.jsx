@@ -20,28 +20,40 @@ const SeleccionContenido = ({ id }) => {
   switch (id) {
     case 1:
       return <PlanoCartesiano />;
+      break;
     case 2:
       return <AreaCuerposRedondos />;
+      break;
     case 3:
       return <TeoremaFundamentalTriángulo />;
+      break;
     case 4:
       return <ConceptoIntervalo />;
+      break;
     case 5:
       return <IgualdadEcuaciones />;
+      break;
     case 6:
       return <ElementosTermino />;
+      break;
     case 7:
       return <ExpresionesAlgebraicas />;
+      break;
     case 8:
       return <LenguajeOrdinarioAlgebraico />;
+      break;
     case 9:
       return <DesigualdadInecuaciones />;
+      break;
     case 10:
       return <ConceptoClasificaciónNúmerosReales />;
+      break;
     case 11:
       return <NúmerosRealesNúmerosIrracionales />;
+      break;
     case 12:
       return <PatronesNuméricos />;
+      break;
     case 13:
       return <PropiedadesGeneralesNúmerosReales />;
   }

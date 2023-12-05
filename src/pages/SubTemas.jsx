@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { home } from "ionicons/icons";
 import Toolbar from "../components/Toolbar";
 import DatosPerfil from "../data/DatosUsuario";
-import DatosPuntuacion from "../data/Puntuacion";
+import DatosPuntuacion from "../data/datosPuntuacion.jsx";
 import "../styles/subTemas.css";
 
 const SubTemas = () => {
