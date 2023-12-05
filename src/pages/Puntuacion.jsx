@@ -9,7 +9,10 @@ import {
 import CalculoPuntuacion from "../components/CalculoPuntuacion";
 import Toolbar from "../components/Toolbar";
 import DatosPerfil from "../data/DatosUsuario";
+import puntuacion from "../data/datosPuntuacion.jsx";
 import { useParams } from "react-router";
+
+const obtenerPuntuacion = puntuacion;
 
 const Puntuacion = () => {
   const perfil = DatosPerfil();
@@ -31,7 +34,11 @@ const Puntuacion = () => {
         <CalculoPuntuacion puntuacion={puntuacion} />
 
         <div style={{ textAlign: "center", marginTop: "3em" }}>
-          <IonButton size="large" routerLink="/temas">
+          <IonButton
+            onClick={obtenerPuntuacion}
+            size="large"
+            routerLink="/temas"
+          >
             Volver a Contenido
           </IonButton>
         </div>
